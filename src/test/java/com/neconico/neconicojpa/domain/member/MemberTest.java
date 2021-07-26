@@ -17,10 +17,7 @@ public class MemberTest {
     @Test
     void createMemberTest() {
         // given
-        MemberFormDto memberFormDto = new MemberFormDto();
-        memberFormDto.setName("user1");
-        memberFormDto.setAddress("서울시");
-        memberFormDto.setZipCode(02423);
+        MemberFormDto memberFormDto = getMemberFormDto();
 
         // when
         Member member = Member.createMember(memberFormDto);
@@ -36,10 +33,7 @@ public class MemberTest {
     @Test
     void test() {
         // given
-        MemberFormDto memberFormDto = new MemberFormDto();
-        memberFormDto.setName("user1");
-        memberFormDto.setAddress("서울시");
-        memberFormDto.setZipCode(02423);
+        MemberFormDto memberFormDto = getMemberFormDto();
 
         Member member = Member.createMember(memberFormDto);
 
@@ -58,8 +52,18 @@ public class MemberTest {
 
         // then
         assertThat(member.getPassword()).isEqualTo("UINEOFHG-FNOFJEJ-JHDFNO");
+        assertThat(member.getAddress().getZipCode()).isEqualTo(25331);
+        assertThat(member.getAddress().getAddress()).isEqualTo("경기도");
     }
 
+    private MemberFormDto getMemberFormDto() {
+        MemberFormDto memberFormDto = new MemberFormDto();
+        memberFormDto.setName("user1");
+        memberFormDto.setAddress("서울시");
+        memberFormDto.setZipCode(02423);
+
+        return memberFormDto;
+    }
 
 
 }
