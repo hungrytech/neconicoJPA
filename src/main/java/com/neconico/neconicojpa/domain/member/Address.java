@@ -17,5 +17,5 @@ public class Address {
     private int zipCode;
 
     @Column(nullable = false)
-    private String address;
+    private String street;
 }

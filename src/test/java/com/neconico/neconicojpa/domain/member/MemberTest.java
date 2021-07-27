@@ -24,21 +24,21 @@ public class MemberTest {
 
         // then
         assertThat(member.getName()).isEqualTo(memberFormDto.getName());
-        assertThat(member.getAddress().getAddress()).isEqualTo(memberFormDto.getAddress());
+        assertThat(member.getAddress().getStreet()).isEqualTo(memberFormDto.getStreet());
         assertThat(member.getAddress().getZipCode()).isEqualTo(memberFormDto.getZipCode());
 
     }
 
     @DisplayName("member객체 정보변경")
     @Test
-    void test() {
+    void testModifyInfo() {
         // given
         MemberFormDto memberFormDto = getMemberFormDto();
 
         Member member = Member.createMember(memberFormDto);
 
         ModifyMemberFormDto modifyMemberFormDto = new ModifyMemberFormDto();
-        modifyMemberFormDto.setAddress("경기도");
+        modifyMemberFormDto.setStreet("경기도");
         modifyMemberFormDto.setZipCode(25331);
 
         PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
@@ -48,18 +48,18 @@ public class MemberTest {
         member.modifyPassword(passwordEncoder
                 .encode(modifyMemberFormDto.getPassword()));
 
-        member.modifyAddress(new Address(modifyMemberFormDto.getZipCode(), modifyMemberFormDto.getAddress()));
+        member.modifyAddress(new Address(modifyMemberFormDto.getZipCode(), modifyMemberFormDto.getStreet()));
 
         // then
         assertThat(member.getPassword()).isEqualTo("UINEOFHG-FNOFJEJ-JHDFNO");
         assertThat(member.getAddress().getZipCode()).isEqualTo(25331);
-        assertThat(member.getAddress().getAddress()).isEqualTo("경기도");
+        assertThat(member.getAddress().getStreet()).isEqualTo("경기도");
     }
 
     private MemberFormDto getMemberFormDto() {
         MemberFormDto memberFormDto = new MemberFormDto();
         memberFormDto.setName("user1");
-        memberFormDto.setAddress("서울시");
+        memberFormDto.setStreet("서울시");
         memberFormDto.setZipCode(02423);
 
         return memberFormDto;

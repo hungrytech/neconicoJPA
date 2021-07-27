@@ -12,5 +12,5 @@ public class MemberFormDto {
     private String email;
     private String phoneNumber;
     private int zipCode;
-    private String address;
+    private String street;
 }

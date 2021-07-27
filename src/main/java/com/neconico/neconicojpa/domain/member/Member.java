@@ -2,7 +2,6 @@ package com.neconico.neconicojpa.domain.member;
 
 import com.neconico.neconicojpa.dto.member.MemberFormDto;
 import lombok.*;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -57,7 +56,7 @@ public class Member {
                 .birthdate(memberFormDto.getBirthdate())
                 .email(memberFormDto.getEmail())
                 .phoneNumber(memberFormDto.getPhoneNumber())
-                .address(new Address(memberFormDto.getZipCode(), memberFormDto.getAddress()))
+                .address(new Address(memberFormDto.getZipCode(), memberFormDto.getStreet()))
                 .build();
 
     }
@@ -72,7 +71,7 @@ public class Member {
 
     public void modifyAddress(Address modifyAddress) {
         if(modifyAddress == null
-                || (!hasText(modifyAddress.getAddress()) || modifyAddress.getZipCode() == 0)) {
+                || (!hasText(modifyAddress.getStreet()) || modifyAddress.getZipCode() == 0)) {
             throw new IllegalArgumentException("not insert null or blank on modify address");
         }
 
