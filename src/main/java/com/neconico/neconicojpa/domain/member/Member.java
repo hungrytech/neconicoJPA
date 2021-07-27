@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+
 import static org.springframework.util.StringUtils.hasText;
 
 @Getter
@@ -42,9 +44,13 @@ public class Member {
     @Embedded
     private Address address;
 
+    @Column(nullable = false)
+    private String authority;
+
+
     @Builder
     public Member(String accountId, String password, String name, Gender gender,
-                  String birthdate, String email, String phoneNumber, Address address) {
+                  String birthdate, String email, String phoneNumber, Address address, String authority) {
 
         this.accountId = accountId;
         this.password = password;
@@ -54,6 +60,7 @@ public class Member {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.authority = authority;
     }
 
     public void modifyPassword(String modifyPassword) {
@@ -71,5 +78,12 @@ public class Member {
         }
 
         address = modifyAddress;
+    }
+
+    public void modifyAuthority(String modifyAuthority) {
+        if(!hasText(modifyAuthority)) {
+            throw new IllegalArgumentException("not insert null or blank modify authority");
+        }
+        this.authority = modifyAuthority;
     }
 }

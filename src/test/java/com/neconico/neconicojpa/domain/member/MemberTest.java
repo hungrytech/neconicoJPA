@@ -58,6 +58,20 @@ public class MemberTest {
         assertThat(member.getPassword()).isEqualTo(modifyEncodePassword);
     }
 
+    @DisplayName("memeber entity 권한정보 변경")
+    @Test
+    void test_member_modify_authority() throws Exception {
+        // given
+        Member member = getMember(passwordEncoder.encode(defaultPassword));
+
+        String modifyAuthority = "ROLE_ADMIN";
+
+        // when
+        member.modifyAuthority(modifyAuthority);
+
+        // then
+        assertThat(member.getAuthority()).isEqualTo(modifyAuthority);
+    }
 
 
     private Member getMember(String encodePassword) {
@@ -69,6 +83,7 @@ public class MemberTest {
                 .email("user1@gmail.com")
                 .phoneNumber("010-1111-1111")
                 .address(new Address(1234, "서울시 도봉로"))
+                .authority("ROLE_USER")
                 .build();
     }
 
