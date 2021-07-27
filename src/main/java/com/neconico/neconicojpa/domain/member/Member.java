@@ -1,11 +1,13 @@
 package com.neconico.neconicojpa.domain.member;
 
-import com.neconico.neconicojpa.dto.member.MemberFormDto;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.hasText;
 
 @Getter
 @Entity
@@ -16,14 +18,17 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_pw", nullable = false)
+    @Column(nullable = false)
+    private String accountId;
+
+    @Column(name = "account_pw", nullable = false)
     private String password;
 
     @Column(name = "member_name", nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 1)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(nullable = false, length = 8)
     private String birthdate;
@@ -38,7 +43,10 @@ public class Member {
     private Address address;
 
     @Builder
-    public Member(String password, String name, String gender, String birthdate, String email, String phoneNumber, Address address) {
+    public Member(String accountId, String password, String name, Gender gender,
+                  String birthdate, String email, String phoneNumber, Address address) {
+
+        this.accountId = accountId;
         this.password = password;
         this.name = name;
         this.gender = gender;
@@ -46,19 +54,6 @@ public class Member {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-    }
-
-    public static Member createMember(MemberFormDto memberFormDto) {
-        return Member.builder()
-                .password(memberFormDto.getPassword())
-                .name(memberFormDto.getName())
-                .gender(memberFormDto.getGender())
-                .birthdate(memberFormDto.getBirthdate())
-                .email(memberFormDto.getEmail())
-                .phoneNumber(memberFormDto.getPhoneNumber())
-                .address(new Address(memberFormDto.getZipCode(), memberFormDto.getStreet()))
-                .build();
-
     }
 
     public void modifyPassword(String modifyPassword) {
