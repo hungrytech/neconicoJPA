@@ -27,6 +27,7 @@ public class MemberTest {
         assertThat(member.getAddress().getStreet()).isEqualTo("서울시 강남로");
     }
 
+    @DisplayName("Member Entity변경")
     @Test
     void test_modify_member_entity() throws Exception {
         // given
