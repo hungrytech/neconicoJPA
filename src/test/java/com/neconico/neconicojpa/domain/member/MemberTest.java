@@ -24,10 +24,10 @@ public class MemberTest {
                 .willReturn(defaultEncodePassword);
     }
 
-
+    //TODO: 과연 엔티티 테스트해도 될까?
     @DisplayName("Member Entity생성")
     @Test
-    void test_create_member_entity() throws Exception {
+    void test_create_member() throws Exception {
         Member member = getMember(passwordEncoder.encode(defaultPassword));
 
         assertThat(member.getPassword()).isEqualTo(defaultEncodePassword);

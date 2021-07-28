@@ -1,9 +1,6 @@
 package com.neconico.neconicojpa.domain.member;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -49,8 +46,8 @@ public class Member {
 
 
     @Builder
-    public Member(String accountId, String password, String name, Gender gender,
-                  String birthdate, String email, String phoneNumber, Address address, String authority) {
+    private Member(String accountId, String password, String name, Gender gender,
+                   String birthdate, String email, String phoneNumber, Address address, String authority) {
 
         this.accountId = accountId;
         this.password = password;
@@ -65,7 +62,7 @@ public class Member {
 
     public void modifyPassword(String modifyPassword) {
         if(!hasText(modifyPassword)) {
-            throw new IllegalArgumentException("not insert null or blank on modify password");
+            throw new IllegalArgumentException("not insert null or blank on modify password.");
         }
 
         password = modifyPassword;
@@ -74,7 +71,7 @@ public class Member {
     public void modifyAddress(Address modifyAddress) {
         if(modifyAddress == null
                 || (!hasText(modifyAddress.getStreet()) || modifyAddress.getZipCode() == 0)) {
-            throw new IllegalArgumentException("not insert null or blank on modify address");
+            throw new IllegalArgumentException("not insert null or blank on modify address.");
         }
 
         address = modifyAddress;
@@ -82,8 +79,9 @@ public class Member {
 
     public void modifyAuthority(String modifyAuthority) {
         if(!hasText(modifyAuthority)) {
-            throw new IllegalArgumentException("not insert null or blank modify authority");
+            throw new IllegalArgumentException("not insert null or blank modify authority.");
         }
+
         this.authority = modifyAuthority;
     }
 }

@@ -32,7 +32,7 @@ public class Notice {
     private Member member;
 
     @Builder
-    public Notice(String title, String content, NoticeStatus noticeStatus, Member member) {
+    private Notice(String title, String content, NoticeStatus noticeStatus, Member member) {
         this.title = title;
         this.content = content;
         this.noticeStatus = noticeStatus;
