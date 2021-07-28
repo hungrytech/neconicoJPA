@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
 
@@ -71,6 +72,30 @@ public class MemberTest {
 
         // then
         assertThat(member.getAuthority()).isEqualTo(modifyAuthority);
+    }
+
+    @DisplayName("변경 시 잘못된값 주입")
+    @Test
+    void test_modify_exception() throws Exception {
+
+        Member member = getMember(passwordEncoder.encode(defaultPassword));
+
+        String modifyPassword = "";
+        Address modifyAddress = new Address(0, "");
+        String modifyAuthority = null;
+
+        assertThatThrownBy(() -> member.modifyPassword(modifyPassword))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("not insert null or blank on modify password");
+
+        assertThatThrownBy(() -> member.modifyAddress(modifyAddress))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("not insert null or blank on modify address");
+
+        assertThatThrownBy(() -> member.modifyAuthority(modifyAuthority))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("not insert null or blank modify authority");
+
     }
 
 
