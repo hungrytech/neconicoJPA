@@ -3,67 +3,47 @@ package com.neconico.neconicojpa.domain.member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.mock;
 
 public class MemberTest {
 
-    private PasswordEncoder passwordEncoder;
-    private final String defaultPassword = "1234";
-    private final String defaultEncodePassword = "SFOEJF-FNFODSNOWDJ";
+
+    private String defaultPassword;
 
     @BeforeEach
     void setPasswordEncoder() {
-        this.passwordEncoder = mock(PasswordEncoder.class);
-
-        given(passwordEncoder.encode(defaultPassword))
-                .willReturn(defaultEncodePassword);
+        defaultPassword = "1234";
     }
 
-    //TODO: 과연 엔티티 테스트해도 될까?
-    @DisplayName("Member Entity생성")
-    @Test
-    void test_create_member() throws Exception {
-        Member member = getMember(passwordEncoder.encode(defaultPassword));
-
-        assertThat(member.getPassword()).isEqualTo(defaultEncodePassword);
-        assertThat(member.getGender()).isEqualTo(Gender.M);
-    }
-
-    @DisplayName("Member Etity변경")
+    @DisplayName("member 정보 변경")
     @Test
     void test_modify_member_entity() throws Exception {
         // given
-        Member member = getMember(passwordEncoder.encode(defaultPassword));
+        Member member = getMember();
 
         String modifyPassword = "4232";
-        String modifyEncodePassword = "WFSFWF-WFFDF-DFFDF";
 
-        given(passwordEncoder.encode(modifyPassword))
-                .willReturn(modifyEncodePassword);
 
         int modifyZipCode = 1111;
         String modifyStreet = "경기도 수원시";
 
         // when
         member.modifyAddress(new Address(modifyZipCode, modifyStreet));
-        member.modifyPassword(passwordEncoder.encode(modifyPassword));
+        member.modifyPassword(modifyPassword);
 
         // then
         assertThat(member.getAddress().getStreet()).isEqualTo(modifyStreet);
         assertThat(member.getAddress().getZipCode()).isEqualTo(modifyZipCode);
-        assertThat(member.getPassword()).isEqualTo(modifyEncodePassword);
+        assertThat(member.getPassword()).isEqualTo(modifyPassword);
     }
 
-    @DisplayName("memeber entity 권한정보 변경")
+    @DisplayName("memeber 권한정보 변경")
     @Test
     void test_member_modify_authority() throws Exception {
         // given
-        Member member = getMember(passwordEncoder.encode(defaultPassword));
+        Member member = getMember();
 
         String modifyAuthority = "ROLE_ADMIN";
 
@@ -74,35 +54,50 @@ public class MemberTest {
         assertThat(member.getAuthority()).isEqualTo(modifyAuthority);
     }
 
-    @DisplayName("변경 시 잘못된값 주입")
+    @DisplayName("비밀번호 변경 시 잘못된값 주입")
     @Test
-    void test_modify_exception() throws Exception {
+    void test_modify_password_exception() throws Exception {
 
-        Member member = getMember(passwordEncoder.encode(defaultPassword));
+        Member member = getMember();
 
         String modifyPassword = "";
-        Address modifyAddress = new Address(0, "");
-        String modifyAuthority = null;
 
         assertThatThrownBy(() -> member.modifyPassword(modifyPassword))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("not insert null or blank on modify password");
+                .hasMessage("not insert null or blank on modify password.");
+    }
+
+    @DisplayName("주소 변경 시 잘못된 값 주입")
+    @Test
+    void test_modify_address_exception() throws Exception {
+        Member member = getMember();
+
+        Address modifyAddress = new Address(0, "");
 
         assertThatThrownBy(() -> member.modifyAddress(modifyAddress))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("not insert null or blank on modify address");
+                .hasMessage("not insert null or blank on modify address.");
+    }
+
+    @DisplayName("권한 변경 시 잘못된 값 주입")
+    @Test
+    void test_modify_authority_exception() throws Exception {
+        String modifyAuthority = null;
+
+        Member member = getMember();
 
         assertThatThrownBy(() -> member.modifyAuthority(modifyAuthority))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("not insert null or blank modify authority");
-
+                .hasMessage("not insert null or blank modify authority.");
     }
 
 
-    private Member getMember(String encodePassword) {
+
+
+    private Member getMember() {
         return Member.builder()
                 .accountId("User1")
-                .password(encodePassword)
+                .password(defaultPassword)
                 .name("user1")
                 .gender(Gender.M)
                 .email("user1@gmail.com")
