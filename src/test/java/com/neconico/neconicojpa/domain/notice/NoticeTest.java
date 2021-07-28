@@ -7,11 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class NoticeTest {
-    private final String defaultTitle = "제목";
-    private final String defaultContent = "내용";
-    private final NoticeStatus defaultNoticeStatus = NoticeStatus.ON;
 
-    @DisplayName("notice entity")
+    @DisplayName("notice 정보 변경")
     @Test
     void test_modify_notice() throws Exception {
         // given
@@ -58,8 +55,9 @@ public class NoticeTest {
                 .hasMessage("not insert blank and null on modify content");
     }
 
+    @DisplayName("status 변경 시 잘못된 값 주입")
     @Test
-    void test_modify_status_excepiton() throws Exception {
+    void test_modify_status_exception() throws Exception {
         Notice notice = getNotice();
 
         assertThatThrownBy(() -> notice.modifyState(null))
@@ -67,14 +65,11 @@ public class NoticeTest {
                 .hasMessage("not insert null on modify state");
     }
 
-
-
-
     private Notice getNotice() {
         return Notice.builder()
-                .title(defaultTitle)
-                .content(defaultContent)
-                .noticeStatus(defaultNoticeStatus)
+                .title("제목")
+                .content("내용")
+                .noticeStatus(NoticeStatus.ON)
                 .build();
     }
 
