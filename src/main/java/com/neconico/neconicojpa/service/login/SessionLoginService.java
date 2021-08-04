@@ -17,17 +17,17 @@ public class SessionLoginService implements LoginService{
     private final HttpSession httpSession;
 
     @Override
-    public void loginUser(String id) {
+    public void loginMember(String id) {
         httpSession.setAttribute(USER_ID, id);
     }
 
     @Override
-    public void logoutUser(String id) {
+    public void logoutMember(String id) {
         httpSession.invalidate();
     }
 
     @Override
-    public String getCurrentLoginUser() {
+    public String getCurrentLoginMember() {
         return (String) httpSession.getAttribute(USER_ID);
     }
 }

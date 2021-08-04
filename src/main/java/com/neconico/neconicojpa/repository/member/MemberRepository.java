@@ -10,6 +10,9 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
 
-    @Query("select m from Member m where m.accountId =:id and m.password =:accountPw")
-    Optional<Member> findMemberByIdAndPw(@Param("id") String accountId, @Param("pw") String accountPw);
+    @Query("select m from Member m where m.accountId =:id and m.password =:pw")
+    Optional<Member> findMemberByAccountIdAndAccountPw(@Param("id") String accountId, @Param("pw") String accountPw);
+
+    Optional<Member> findMemberByAccountId(String accountId);
+
 }

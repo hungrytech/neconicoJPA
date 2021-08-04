@@ -19,7 +19,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String accountId;
 
     @Column(name = "account_pw", nullable = false)
@@ -31,10 +31,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false, length = 8)
-    private String birthdate;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false, length = 13)
@@ -52,13 +49,12 @@ public class Member {
 
     @Builder
     private Member(String accountId, String password, String name, Gender gender,
-                   String birthdate, String email, String phoneNumber, Address address, String authority) {
+                   String email, String phoneNumber, Address address, String authority) {
 
         this.accountId = accountId;
         this.password = password;
         this.name = name;
         this.gender = gender;
-        this.birthdate = birthdate;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;

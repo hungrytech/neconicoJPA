@@ -7,10 +7,10 @@ package com.neconico.neconicojpa.service.login;
  */
 public interface LoginService {
 
-    void loginUser(String id);
+    void loginMember(String id);
 
-    void logoutUser(String id);
+    void logoutMember(String id);
 
-    String getCurrentLoginUser();
+    String getCurrentLoginMember();
 
 }
