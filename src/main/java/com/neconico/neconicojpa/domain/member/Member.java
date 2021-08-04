@@ -1,10 +1,12 @@
 package com.neconico.neconicojpa.domain.member;
 
+import com.neconico.neconicojpa.domain.item.Item;
 import lombok.*;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -23,7 +25,7 @@ public class Member {
     @Column(name = "account_pw", nullable = false)
     private String password;
 
-    @Column(name = "member_name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -43,6 +45,9 @@ public class Member {
 
     @Column(nullable = false)
     private String authority;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList<>();
 
 
     @Builder
