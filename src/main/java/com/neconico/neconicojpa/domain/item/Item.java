@@ -1,13 +1,13 @@
 package com.neconico.neconicojpa.domain.item;
 
 import com.neconico.neconicojpa.domain.member.Member;
+import com.neconico.neconicojpa.domain.trade.TradeRequest;
 import com.neconico.neconicojpa.domain.vo.ImageInfo;
 import lombok.*;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.hasText;
 
 @Entity
 @Getter
@@ -38,6 +38,10 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_id")
+    private TradeRequest tradeRequest;
 
     @Builder
     public Item(@NonNull String title, @NonNull String content, @NonNull long price,
@@ -87,6 +91,11 @@ public class Item {
     private void setMember(Member member) {
         this.member = member;
         member.getItems().add(this);
+    }
+
+    public void insertRequestTrade(TradeRequest tradeRequest) {
+        this.tradeRequest = tradeRequest;
+        tradeRequest.insertTargetItem(this);
     }
 
 

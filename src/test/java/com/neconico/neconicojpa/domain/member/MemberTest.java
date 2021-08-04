@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MemberTest {
 
-
     private String defaultPassword;
 
     @BeforeEach
@@ -99,13 +98,11 @@ public class MemberTest {
                 .accountId("User1")
                 .password(defaultPassword)
                 .name("user1")
-                .gender(Gender.M)
+                .gender(Gender.MAN)
                 .email("user1@gmail.com")
                 .phoneNumber("010-1111-1111")
                 .address(new Address(1234, "서울시 도봉로"))
                 .authority("ROLE_USER")
                 .build();
     }
-
-
 }
