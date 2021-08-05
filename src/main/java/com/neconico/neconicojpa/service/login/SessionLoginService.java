@@ -22,7 +22,11 @@ public class SessionLoginService implements LoginService{
     }
 
     @Override
-    public void logoutMember(String id) {
+    public void logoutMember() {
+        String id = (String) httpSession.getAttribute(USER_ID);
+        if(id == null) {
+            throw new IllegalArgumentException("not login state");
+        }
         httpSession.invalidate();
     }
 

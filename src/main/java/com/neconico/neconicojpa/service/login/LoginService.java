@@ -9,7 +9,7 @@ public interface LoginService {
 
     void loginMember(String id);
 
-    void logoutMember(String id);
+    void logoutMember();
 
     String getCurrentLoginMember();
 

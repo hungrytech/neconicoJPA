@@ -26,7 +26,13 @@ public class MemberController {
         return ResponseEntity.ok(memberLoginDto);
     }
 
-    @PostMapping("/member/new")
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        loginService.logoutMember();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/members/new")
     public ResponseEntity<Void> insertMember(@RequestBody MemberJoinDto memberJoinDto) {
         boolean insertResult = memberService.insertMember(memberJoinDto);
 
@@ -37,7 +43,14 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PatchMapping("/member/{id}/edit")
+    @GetMapping("/members/{id}")
+    public ResponseEntity<MemberDto> selectMember(@PathVariable long id) {
+        MemberDto memberDto = memberService.findMemberById(id);
+
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/members/{id}/edit")
     public ResponseEntity<Void> updateMember(@RequestBody MemberDto memberDto, @PathVariable long id) {
         memberService.updateMember(memberDto, id);
 
@@ -45,4 +58,13 @@ public class MemberController {
     }
 
 
+    @GetMapping("/members/{accountId}/exist")
+    public ResponseEntity<Void> existAccountId(@PathVariable String accountId) {
+        boolean exist = memberService.isExist(accountId);
+        if(!exist) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
