@@ -1,4 +1,4 @@
-package com.neconico.neconicojpa.service.user;
+package com.neconico.neconicojpa.service.member;
 
 import com.neconico.neconicojpa.domain.member.Address;
 import com.neconico.neconicojpa.domain.member.Gender;
@@ -8,8 +8,6 @@ import com.neconico.neconicojpa.dto.member.MemberDto;
 import com.neconico.neconicojpa.dto.member.MemberJoinDto;
 import com.neconico.neconicojpa.dto.member.MemberLoginDto;
 import com.neconico.neconicojpa.repository.member.MemberRepository;
-import com.neconico.neconicojpa.service.member.MemberService;
-import com.neconico.neconicojpa.service.member.MemberServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
